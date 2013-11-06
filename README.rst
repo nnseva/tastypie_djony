@@ -38,7 +38,7 @@ Limitations
 Using
 -----
 
-Compare the following API declarations:
+Compare the following API declarations::
 
 Django-based (old-style)::
 
