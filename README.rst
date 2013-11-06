@@ -42,46 +42,54 @@ Compare the following API declarations:
 
 Django-based (old-style)::
 
-    from django.contrib.auth import models as auth_models
-    from tastypie.constants import ALL,ALL_WITH_RELATIONS
-    from tastypie import ModelResource
-    from tastypie import ToManyField, ToOneField
-    class PermissionResource(ModelResource):
-        class Meta:
-            queryset = auth_models.Permission.objects.all()
-            object_model = queryset.model
-            filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
-            resource_name = 'auth/permission'
-    class UserResource(ModelResource):
-        user_permissions = ToManyField(PermissionResource,'user_permissions',related_name='user_set',null=True)
-        class Meta:
-            queryset = auth_models.User.objects.all()
-            object_model = queryset.model
-            filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
-            resource_name = 'auth/user'
+```python
+from django.contrib.auth import models as auth_models
+
+from tastypie.constants import ALL,ALL_WITH_RELATIONS
+from tastypie import ModelResource
+from tastypie import ToManyField, ToOneField
+
+class PermissionResource(ModelResource):
+    class Meta:
+        queryset = auth_models.Permission.objects.all()
+        object_model = queryset.model
+        filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
+        resource_name = 'auth/permission'
+class UserResource(ModelResource):
+    user_permissions = ToManyField(PermissionResource,'user_permissions',related_name='user_set',null=True)
+    class Meta:
+        queryset = auth_models.User.objects.all()
+        object_model = queryset.model
+        filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
+        resource_name = 'auth/user'
+```
 
 Pony-based (new-style)::
 
-    ...
-    from django.contrib.auth import models as auth_models
-    from tastypie.constants import ALL,ALL_WITH_RELATIONS
-    from tastypie import ModelResource
-    from tastypie import ToManyField, ToOneField
-    from tastypie_djony.resources import DjonyResource
-    from tastypie_djony.fields import SetField
+```python
+...
+from django.contrib.auth import models as auth_models
 
-    class PermissionResource(DjonyResource):
-        class Meta:
-            object_model = auth_models.Permission
-            filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
-            resource_name = 'auth/permission'
+from tastypie.constants import ALL,ALL_WITH_RELATIONS
+from tastypie import ModelResource
+from tastypie import ToManyField, ToOneField
 
-    class UserResource(DjonyResource):
-        user_permissions = SetField(PermissionResource,'user_permissions',related_name='user_set',null=True)
-        class Meta:
-            object_model = auth_models.User
-            filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
-            resource_name = 'auth/user'
+from tastypie_djony.resources import DjonyResource
+from tastypie_djony.fields import SetField
+
+class PermissionResource(DjonyResource):
+    class Meta:
+        object_model = auth_models.Permission
+        filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
+        resource_name = 'auth/permission'
+
+class UserResource(DjonyResource):
+    user_permissions = SetField(PermissionResource,'user_permissions',related_name='user_set',null=True)
+    class Meta:
+        object_model = auth_models.User
+        filtering = dict([(n,ALL_WITH_RELATIONS) for n in object_model._meta.get_all_field_names()])
+        resource_name = 'auth/user'
+```
 
 Use `DjonyResource` instead of tastypie-native `ModelResource`.
 
