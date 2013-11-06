@@ -43,6 +43,7 @@ Compare the following API declarations::
 Django-based (old-style)::
 
 ```
+
 from django.contrib.auth import models as auth_models
 
 from tastypie.constants import ALL,ALL_WITH_RELATIONS
