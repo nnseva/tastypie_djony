@@ -67,6 +67,7 @@ class UserResource(ModelResource):
 
 
 Pony-based (new-style):
+
 ```
 ...
 from django.contrib.auth import models as auth_models
