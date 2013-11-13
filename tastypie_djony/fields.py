@@ -10,7 +10,7 @@ class GMTDateTimeNaiveField(ApiField):
     """
     A datetime field for naive Greenwich-based datetime values - returns iso-8601
     """
-    dehydrated_type = 'string'
+    dehydrated_type = 'datetime'
     help_text = 'A GMT date & time as a string iso-8601. Ex: "2010-11-10T03:07:43Z"'
 
     def convert(self, value):
