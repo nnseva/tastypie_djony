@@ -8,7 +8,7 @@ def read(fname):
 
 setupconf = dict(
     name = 'tastypie_djony',
-    version = "0.0.1",
+    version = "0.0.2",
     license = 'LGPL',
     url = 'https://github.com/nnseva/tastypie_djony/',
     author = 'Vsevolod Novikov',
