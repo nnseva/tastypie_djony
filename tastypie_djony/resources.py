@@ -271,7 +271,7 @@ class DjonyResource(Resource):
 
             if order_by_bits[0].startswith('-'):
                 field_name = order_by_bits[0][1:]
-                order = 'desc(%s)'
+                order = 'orm.desc(%s)'
                 order_by_name = order_by_name[1:]
 
             if not field_name in self.fields:
