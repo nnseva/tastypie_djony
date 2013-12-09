@@ -8,6 +8,7 @@ from pony import orm
 from pony.converting import str2date, str2datetime, str2time
 
 from django.conf.urls import patterns, include, url
+from django.conf import settings
 
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
@@ -692,8 +693,11 @@ class DjonyResource(Resource):
         return u"%s.%s.%s" % (type(obj).__name__, type(obj).__module__, '.'.join([("%s" % v) for v in obj._get_raw_pkval_()]))
 
     def full_hydrate(self, bundle):
-        #if bundle.obj is None: # TODO: should be changed!
-        #    bundle.obj = self._meta.object_class()
+        if bundle.obj is None:
+            if 'resource_uri' in bundle.data and bundle.data['resource_uri']:
+                # try to get the existent object
+                kwargs = {self._meta.detail_uri_name:bundle.data['resource_uri'].split('/')[-2]}
+                bundle.obj = self.obj_get(bundle,**kwargs)
 
         bundle = self.hydrate(bundle)
 
@@ -821,3 +825,8 @@ class DjonyResource(Resource):
 
         self.authorized_delete_detail(self.get_object_list(bundle.request), bundle)
         bundle.obj.delete()
+
+    def is_authenticated(self, request):
+        # Abandons csrf check to simplify using API
+        request._dont_enforce_csrf_checks = True
+        return Resource.is_authenticated(self,request)

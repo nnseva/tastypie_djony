@@ -94,5 +94,5 @@ class PonyAuthorization(Authorization):
     def delete_list(self, object_list, bundle):
         return self.check_list(object_list, bundle, 'delete')
 
-    def update_detail(self, object_list, bundle):
+    def delete_detail(self, object_list, bundle):
         return self.check_detail(object_list, bundle, 'delete')

@@ -5,6 +5,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext_noop
 
 import datetime
+import re
+
+from django.utils import datetime_safe
+
+DATETIME_RE = re.compile("(?P<year>[0-9]+)[^0-9](?P<month>[0-9]+)[^0-9](?P<day>[0-9]+)[^0-9]+(?P<hour>[0-9]+)[^0-9](?P<minute>[0-9]+)[^0-9](?P<second>[0-9]+).*")
 
 class GMTDateTimeNaiveField(ApiField):
     """
